@@ -1,0 +1,32 @@
+name: "Push Check"
+
+on:
+    push:
+        branches-ignore:
+            - "gh-pages"
+
+jobs:
+    validate-git-flow:
+        name: "Validate Git Flow Branch"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Validate Branch Name
+              run: bash .github/scripts/validate-git-flow.sh
+
+    conventional-commits:
+        name: "Check Conventional Commits"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Lint Commits (Zero Dependencies)
+              env:
+                  BEFORE_COMMIT: ${{ github.event.before }}
+                  AFTER_COMMIT: ${{ github.event.after }}
+              run: bash .github/scripts/lint-commits.sh
