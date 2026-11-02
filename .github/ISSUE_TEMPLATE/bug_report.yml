@@ -1,0 +1,78 @@
+name: Bug Report
+description: Report an error or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Provide the information requested below to reproduce and resolve the issue.
+    - type: checkboxes
+      id: checks
+      attributes:
+          label: Pre-checks
+          options:
+              - label: Confirmed no duplicate issue exists
+                required: true
+    - type: textarea
+      id: description
+      attributes:
+          label: Bug Description
+          description: Provide a concise description of the issue.
+          placeholder: Expected X, but got Y when doing Z.
+      validations:
+          required: true
+    - type: textarea
+      id: steps
+      attributes:
+          label: Steps to Reproduce
+          value: |
+              1. Go to '...'
+              2. Click on '...'
+              3. Scroll down to '...'
+              4. See error
+          validations:
+              required: true
+    - type: textarea
+      id: expected
+      attributes:
+          label: Expected Behavior
+          description: Describe what should happen.
+      validations:
+          required: true
+    - type: textarea
+      id: logs
+      attributes:
+          label: Logs / Screenshots
+          description: Paste error logs or attach screenshots here.
+          render: shell
+    - type: input
+      id: version
+      attributes:
+          label: Project Version
+          placeholder: e.g., 1.2.3 or commit hash
+      validations:
+          required: true
+    - type: dropdown
+      id: os
+      attributes:
+          label: Operating System
+          multiple: true
+          options:
+              - Windows
+              - macOS
+              - Linux
+              - Android
+              - iOS
+              - Other
+    - type: textarea
+      id: environment
+      attributes:
+          label: Environment
+          description: Browser, runtime, language versions, etc.
+          placeholder: "Node 20, Chrome 126, ..."
+    - type: textarea
+      id: context
+      attributes:
+          label: Additional Context
+          description: Any other relevant information.

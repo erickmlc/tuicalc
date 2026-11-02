@@ -1,0 +1,48 @@
+name: Feature Request
+description: Propose a new feature or enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+    - type: markdown
+      attributes:
+          value: |
+              Provide clear specifications and context to evaluate this request.
+    - type: textarea
+      id: problem
+      attributes:
+          label: Problem Statement
+          description: Describe the problem or use case driving this request.
+          placeholder: Current limitation or behavior that requires change...
+      validations:
+          required: true
+    - type: textarea
+      id: solution
+      attributes:
+          label: Proposed Solution
+          description: Specify the expected implementation or behavior.
+      validations:
+          required: true
+    - type: textarea
+      id: alternatives
+      attributes:
+          label: Alternatives Considered
+          description: List other approaches or workarounds evaluated.
+    - type: dropdown
+      id: priority
+      attributes:
+          label: Priority
+          options:
+              - Low (nice to have)
+              - Medium (improves workflow)
+              - High (blocking usage)
+    - type: checkboxes
+      id: contribution
+      attributes:
+          label: Contribution
+          options:
+              - label: I will submit a PR for this feature
+    - type: textarea
+      id: context
+      attributes:
+          label: Additional Context
+          description: Mockups, links, reference implementations, etc.
