@@ -29,4 +29,4 @@ jobs:
               env:
                   BEFORE_COMMIT: ${{ github.event.before }}
                   AFTER_COMMIT: ${{ github.event.after }}
-              run: bash .github/scripts/lint-commits.sh
+              run: bash .github/scripts/check-conventional-commits.sh
