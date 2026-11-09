@@ -6,11 +6,11 @@ FIXTURES_DIR="${SCRIPTS_DIR}/tests/fixtures"
 STUBS_DIR="${SCRIPTS_DIR}/tests/stubs"
 
 setup_github_env() {
-  export GITHUB_OUTPUT="${BATS_TEST_TMPDIR}/github_output"
-  export GITHUB_EVENT_PATH="${FIXTURES_DIR}/github_event_pr.json"
-  : > "$GITHUB_OUTPUT"
+    export GITHUB_OUTPUT="${BATS_TEST_TMPDIR}/github_output"
+    export GITHUB_EVENT_PATH="${FIXTURES_DIR}/github_event_pr.json"
+    : > "$GITHUB_OUTPUT"
 }
 
 use_stubs() {
-  export PATH="${STUBS_DIR}:${PATH}"
+    export PATH="${STUBS_DIR}:${PATH}"
 }
