@@ -1,5 +1,6 @@
 setup() {
     load '../test_helper/common'
+    use_stubs
     VALID_PR_FILE="${FIXTURES_DIR}/valid_pr.md"
     INVALID_PR_FILE="${FIXTURES_DIR}/invalid_pr.md"
 }

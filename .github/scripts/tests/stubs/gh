@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Stub: gh (GitHub CLI)
+# Controlled by environment variables:
+#   STUB_GH_OUTPUT     — stdout content
+#   STUB_GH_EXIT_CODE  — exit code (default: 0)
+
+echo "${STUB_GH_OUTPUT:-}"
+exit "${STUB_GH_EXIT_CODE:-0}"

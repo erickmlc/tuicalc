@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Stub: git
+# Controlled by environment variables:
+#   STUB_GIT_LOG_OUTPUT     — output for `git log ...`
+#   STUB_GIT_BRANCH_OUTPUT  — output for `git branch ...`
+#   STUB_GIT_REV_PARSE_OUTPUT — output for `git rev-parse ...`
+#   STUB_GIT_EXIT_CODE      — exit code (default: 0)
+
+set -euo pipefail
+
+subcmd="${1:-}"
+exit_code="${STUB_GIT_EXIT_CODE:-0}"
+
+case "$subcmd" in
+    log)
+        echo "${STUB_GIT_LOG_OUTPUT:-}"
+        ;;
+    branch)
+        echo "${STUB_GIT_BRANCH_OUTPUT:-}"
+        ;;
+    rev-parse)
+        echo "${STUB_GIT_REV_PARSE_OUTPUT:-}"
+        ;;
+    *)
+        echo "git stub: unhandled subcommand '$subcmd'" >&2
+        exit 2
+        ;;
+esac
+
+exit "$exit_code"

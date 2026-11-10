@@ -1,5 +1,6 @@
 setup() {
     load '../test_helper/common'
+    use_stubs
     source "${SCRIPTS_DIR}/lib/pr-template.sh"
     TEMPLATES_REAL_DIR="${SCRIPTS_DIR}/../PULL_REQUEST_TEMPLATE"
 }

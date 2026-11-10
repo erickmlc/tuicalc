@@ -1,5 +1,6 @@
 setup() {
     load '../test_helper/common'
+    use_stubs
     source "${SCRIPTS_DIR}/lib/git-flow.sh"
 }
 

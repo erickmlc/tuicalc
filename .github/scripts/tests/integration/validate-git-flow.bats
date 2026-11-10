@@ -1,5 +1,6 @@
 setup() {
     load '../test_helper/common'
+    use_stubs
 }
 
 @test "passes with valid branch name provided as argument" {

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Stub: curl
+# Controlled by environment variables:
+#   STUB_CURL_OUTPUT      — stdout content
+#   STUB_CURL_HTTP_CODE   — simulated HTTP status (printed if -w '%{http_code}')
+#   STUB_CURL_EXIT_CODE   — exit code (default: 0)
+
+output="${STUB_CURL_OUTPUT:-}"
+exit_code="${STUB_CURL_EXIT_CODE:-0}"
+
+# Detect -w '%{http_code}' flag
+for arg in "$@"; do
+    if [[ "$arg" == "%{http_code}" ]]; then
+        output+="${STUB_CURL_HTTP_CODE:-200}"
+    fi
+done
+
+echo "$output"
+exit "$exit_code"

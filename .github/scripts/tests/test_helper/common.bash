@@ -12,5 +12,23 @@ setup_github_env() {
 }
 
 use_stubs() {
-    export PATH="${STUBS_DIR}:${PATH}"
+    local stub_dir="$STUBS_DIR"
+
+    # Some filesystems (e.g. vfat) cannot store the executable bit. Fall back
+    # to executable wrappers in a temporary directory when the stubs are not
+    # directly executable.
+    if [[ ! -x "${STUBS_DIR}/git" ]]; then
+        stub_dir="${BATS_TEST_TMPDIR:-${TMPDIR:-/tmp}}/stubs-bin"
+        mkdir -p "$stub_dir"
+
+        local stub name
+        for stub in "${STUBS_DIR}"/*; do
+            [[ -f "$stub" ]] || continue
+            name="$(basename "$stub")"
+            printf '#!/usr/bin/env bash\nexec bash %q "$@"\n' "$stub" > "${stub_dir}/${name}"
+            chmod +x "${stub_dir}/${name}"
+        done
+    fi
+
+    export PATH="${stub_dir}:${PATH}"
 }
