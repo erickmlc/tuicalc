@@ -47,6 +47,30 @@ Some text"
     assert_output --partial "The 'Description' section is empty or contains only comments/placeholders"
 }
 
+@test "extract_template_required_headers extracts mandatory headers and ignores optional sections" {
+    local test_template="${BATS_TEST_TMPDIR}/sample_template.md"
+    cat << 'EOF' > "$test_template"
+## Description
+<!-- description -->
+## Related Issue
+<!-- issue -->
+## Screenshots / Evidence (if applicable)
+<!-- evidence -->
+## Checklist
+- [ ] task
+## Additional Notes
+<!-- notes -->
+EOF
+
+    run extract_template_required_headers "$test_template"
+    assert_success
+    assert_output --partial "## Description"
+    assert_output --partial "## Related Issue"
+    assert_output --partial "## Checklist"
+    refute_output --partial "if applicable"
+    refute_output --partial "Additional Notes"
+}
+
 @test "match_pr_template matches standard templates" {
     local pull_request_template_body="## Description
 Details

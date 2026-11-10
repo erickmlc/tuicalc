@@ -26,6 +26,13 @@ validate_description_content() {
     return 0
 }
 
+# Automatically extract required level 2 headers from a template markdown file.
+# Headers marked with "(if applicable)", "(optional)", or "Additional Notes" are excluded.
+extract_template_required_headers() {
+    local template_path="$1"
+    grep -E '^## ' "$template_path" | grep -v -i -E '\((if applicable|optional)\)|additional notes' || true
+}
+
 match_pr_template() {
     local body="$1"
     local templates_dir="${2:-.github/PULL_REQUEST_TEMPLATE}"
@@ -35,15 +42,6 @@ match_pr_template() {
         return 1
     fi
 
-    # Define key sections expected for each template type
-    declare -A template_required_sections=(
-        ["pull_request_template.md"]="## Description|## Related Issue|## Change Type|## How to Test|## Checklist"
-        ["bug_fix.md"]="## Description|## Related Issue|## Root Cause|## Solution Details|## How to Test / Reproduce|## Checklist"
-        ["feature.md"]="## Description|## Related Issue|## Motivation & Context|## Key Changes|## Checklist"
-        ["refactor.md"]="## Description|## Related Issue|## Scope of Changes|## Details of Changes|## Verification & Testing"
-        ["documentation.md"]="## Description|## Related Issue|## Scope of Documentation|## Summary of Changes|## Checklist"
-    )
-
     local matched=0
     local matched_template=""
 
@@ -51,26 +49,22 @@ match_pr_template() {
         [[ -f "$tmpl" ]] || continue
         local tmpl_file
         tmpl_file=$(basename "$tmpl")
-        local required_headers="${template_required_sections[$tmpl_file]:-}"
 
-        # Fallback: extract level 2 headers directly from the markdown file if not specified in mapping
-        if [[ -z "$required_headers" ]]; then
-            required_headers=$(grep -E '^## ' "$tmpl" | paste -sd '|' - || true)
-        fi
+        local required_headers
+        required_headers=$(extract_template_required_headers "$tmpl")
 
         if [[ -z "$required_headers" ]]; then
             continue
         fi
 
         local all_found=true
-        local headers=()
-        IFS='|' read -ra headers <<< "$required_headers"
-        for header in "${headers[@]}"; do
+        while IFS= read -r header; do
+            [[ -z "$header" ]] && continue
             if ! echo "$body" | grep -F -q "$header"; then
                 all_found=false
                 break
             fi
-        done
+        done <<< "$required_headers"
 
         if [[ "$all_found" == true ]]; then
             matched=1
