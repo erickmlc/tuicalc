@@ -1,0 +1,5 @@
+feat: add feature
+fix(something): fixes something
+feat!: remove feature
+refactor(.github/tests): refactor CI tests
+chore(deps): update dependencies

@@ -4,45 +4,21 @@ setup() {
 }
 
 @test "accepts valid git flow branch names" {
-    local valid=(
-        "main"
-        "master"
-        "develop"
-        "dev"
-        "feature/add-login"
-        "feature/issue-123_test.refactor"
-        "bugfix/fix-memory-leak"
-        "hotfix/critical-patch"
-        "release/v1.0.0"
-        "release/1.2.3-rc1"
-        "support/legacy-v0.1"
-    )
-    for branch in "${valid[@]}"; do
+    while IFS= read -r branch || [[ -n "$branch" ]]; do
+        [[ -z "$branch" ]] && continue
         run validate_branch_name "$branch"
         assert_success
         assert_output --partial "Branch name complies with Git Flow."
-    done
+    done < "${FIXTURES_DIR}/valid_branch_names.txt"
 }
 
 @test "rejects branch names that don't follow git flow" {
-    local invalid=(
-        "my-feature"
-        "feat/add-login"
-        "fix/bug"
-        "chore/cleanup"
-        "feature"
-        "bugfix"
-        "hotfix"
-        "release"
-        "support"
-        "feature/"
-        "random/branch/name"
-    )
-    for branch in "${invalid[@]}"; do
+    while IFS= read -r branch || [[ -n "$branch" ]]; do
+        [[ -z "$branch" ]] && continue
         run validate_branch_name "$branch"
         assert_failure
         assert_output --partial "violates Git Flow naming conventions"
-    done
+    done < "${FIXTURES_DIR}/invalid_branch_names.txt"
 }
 
 @test "rejects empty branch name" {

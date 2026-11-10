@@ -1,0 +1,11 @@
+main
+master
+develop
+dev
+feature/add-login
+feature/issue-123_test.refactor
+bugfix/fix-memory-leak
+hotfix/critical-patch
+release/v1.0.0
+release/1.2.3-rc1
+support/legacy-v0.1

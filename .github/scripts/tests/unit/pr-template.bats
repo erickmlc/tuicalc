@@ -20,47 +20,30 @@ setup() {
 }
 
 @test "validate_description_content accepts non-empty description content" {
-    local body="## Description
-This is a valid description.
-## Related Issue
-Closes #1"
+    local body
+    body="$(cat "${FIXTURES_DIR}/pr_description_valid.md")"
     run validate_description_content "$body"
     assert_success
 }
 
 @test "validate_description_content rejects description with only html comments or whitespace" {
-    local body="## Description
-<!-- Some placeholder comment -->
-
-## Related Issue
-Closes #1"
+    local body
+    body="$(cat "${FIXTURES_DIR}/pr_description_placeholder_only.md")"
     run validate_description_content "$body"
     assert_failure
     assert_output --partial "The 'Description' section is empty or contains only comments/placeholders"
 }
 
 @test "validate_description_content rejects body without description header" {
-    local body="## Summary
-Some text"
+    local body
+    body="$(cat "${FIXTURES_DIR}/pr_description_no_header.md")"
     run validate_description_content "$body"
     assert_failure
     assert_output --partial "The 'Description' section is empty or contains only comments/placeholders"
 }
 
 @test "extract_template_required_headers extracts mandatory headers and ignores optional sections" {
-    local test_template="${BATS_TEST_TMPDIR}/sample_template.md"
-    cat << 'EOF' > "$test_template"
-## Description
-<!-- description -->
-## Related Issue
-<!-- issue -->
-## Screenshots / Evidence (if applicable)
-<!-- evidence -->
-## Checklist
-- [ ] task
-## Additional Notes
-<!-- notes -->
-EOF
+    local test_template="${FIXTURES_DIR}/sample_template.md"
 
     run extract_template_required_headers "$test_template"
     assert_success
@@ -72,16 +55,8 @@ EOF
 }
 
 @test "match_pr_template matches standard templates" {
-    local pull_request_template_body="## Description
-Details
-## Related Issue
-#1
-## Change Type
-Fix
-## How to Test
-Run bats
-## Checklist
-- [x] done"
+    local pull_request_template_body
+    pull_request_template_body="$(cat "${FIXTURES_DIR}/pr_match_valid_body.md")"
 
     run match_pr_template "$pull_request_template_body" "$TEMPLATES_REAL_DIR"
     assert_success
@@ -89,10 +64,8 @@ Run bats
 }
 
 @test "match_pr_template fails when required sections are missing" {
-    local incomplete_body="## Description
-Details
-## Related Issue
-#1"
+    local incomplete_body
+    incomplete_body="$(cat "${FIXTURES_DIR}/pr_match_incomplete_body.md")"
 
     run match_pr_template "$incomplete_body" "$TEMPLATES_REAL_DIR"
     assert_failure

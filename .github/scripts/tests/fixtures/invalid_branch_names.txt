@@ -1,0 +1,11 @@
+my-feature
+feat/add-login
+fix/bug
+chore/cleanup
+feature
+bugfix
+hotfix
+release
+support
+feature/
+random/branch/name

@@ -1,53 +1,7 @@
 setup() {
     load '../test_helper/common'
-    VALID_PR_FILE="${BATS_TEST_TMPDIR}/valid_pr.md"
-    INVALID_PR_FILE="${BATS_TEST_TMPDIR}/invalid_pr.md"
-
-    cat << 'EOF' > "$VALID_PR_FILE"
-## Description
-
-Implemented branch validation and PR template unit and integration tests.
-
-## Related Issue
-
-Closes #42
-
-## Change Type
-
-- [x] Refactoring
-
-## How to Test
-
-Run bats tests in .github/scripts/tests.
-
-## Checklist
-
-- [x] Tests added
-- [x] All tests passing
-EOF
-
-    cat << 'EOF' > "$INVALID_PR_FILE"
-## Description
-
-<!-- placeholder only -->
-
-## Related Issue
-
-Closes #42
-
-## Change Type
-
-- [x] Refactoring
-
-## How to Test
-
-Run bats tests in .github/scripts/tests.
-
-## Checklist
-
-- [x] Tests added
-- [x] All tests passing
-EOF
+    VALID_PR_FILE="${FIXTURES_DIR}/valid_pr.md"
+    INVALID_PR_FILE="${FIXTURES_DIR}/invalid_pr.md"
 }
 
 @test "passes with valid PR body passed via file argument" {
