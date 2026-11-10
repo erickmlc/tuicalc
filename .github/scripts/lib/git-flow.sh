@@ -1,4 +1,9 @@
-GIT_FLOW_REGEX='^(main|master|develop|dev|(feature|bugfix|hotfix|release|support)/[-a-zA-Z0-9_./]+)$'
+GIT_FLOW_BASE_BRANCHES="main|master|develop|dev"
+GIT_FLOW_PREFIX_TYPES="feature|bugfix|hotfix|release|support"
+
+# Git Flow specification regex:
+# <base-branch> | <prefix-type>/<name>
+GIT_FLOW_REGEX="^(${GIT_FLOW_BASE_BRANCHES}|(${GIT_FLOW_PREFIX_TYPES})/[-a-zA-Z0-9_./]+)$"
 
 validate_branch_name() {
     local ref_name="$1"
@@ -13,12 +18,11 @@ validate_branch_name() {
     if [[ ! "$ref_name" =~ $GIT_FLOW_REGEX ]]; then
         echo "::error::Branch '$ref_name' violates Git Flow naming conventions."
         echo "Allowed branch names:"
-        echo "  - main | master | develop | dev"
-        echo "  - feature/<feature-name>"
-        echo "  - bugfix/<bugfix-name>"
-        echo "  - hotfix/<hotfix-name>"
-        echo "  - release/<version>"
-        echo "  - support/<support-name>"
+        echo "  - ${GIT_FLOW_BASE_BRANCHES//|/ | }"
+        local prefix
+        for prefix in ${GIT_FLOW_PREFIX_TYPES//|/ }; do
+            echo "  - ${prefix}/<${prefix}-name>"
+        done
         return 1
     fi
 
