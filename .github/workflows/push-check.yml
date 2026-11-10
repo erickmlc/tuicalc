@@ -29,4 +29,9 @@ jobs:
               env:
                   BEFORE_COMMIT: ${{ github.event.before }}
                   AFTER_COMMIT: ${{ github.event.after }}
-              run: bash .github/scripts/check-conventional-commits.sh
+              run: |
+                  if [[ -n "${BEFORE_COMMIT:-}" ]]; then
+                      bash .github/scripts/check-conventional-commits.sh
+                  else
+                      bash .github/scripts/check-conventional-commits.sh HEAD~1 HEAD
+                  fi
