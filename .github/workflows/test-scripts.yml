@@ -17,8 +17,8 @@ jobs:
               with:
                   submodules: recursive
 
-            - name: Install Bats
-              run: npm install --global bats@latest
+            - name: Install bats
+              run: sudo apt-get update && sudo apt-get install -y bats
 
             - name: Run unit tests
               run: bats --verbose-run --show-output-of-passing-tests --timing .github/scripts/tests/unit
